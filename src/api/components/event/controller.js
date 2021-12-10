@@ -9,7 +9,7 @@ EventController.get = async (ctx) => {
 EventController.post = async (ctx) => {
   // TODO: Implement
   const userId = ctx.params.userId;
-  const { email, phone } = ctx.request.body;
+  const { emailNotification, phoneNotification } = ctx.request.body;
   console.log(
     'Create the Event for userId[' +
       userId +
