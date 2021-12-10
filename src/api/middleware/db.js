@@ -1,16 +1,20 @@
-const { createConnection } = require('typeorm');
+const { Sequelize } = require('sequelize');
+const { models } = require('../components/models');
 
 module.exports = () => async (ctx, next) => {
   try {
-    console.log(ctx.configs.db);
-    await createConnection({
-      type: ctx.configs.db.type,
-      url: ctx.configs.db.url,
-    });
-    console.log('Connect to Database.');
+    const sequelize = new Sequelize(ctx.configs.db.url);
+    await sequelize.authenticate();
+    // await sequelize.sync({ force: true });
+    console.log('Connected to Database.');
+
+    // Load models
+    ctx.db = await models(sequelize);
+    ctx.db.sequelize = sequelize;
+
     await next();
   } catch (err) {
-    console.error('Could not connect to Database.');
+    console.error(err);
     ctx.status = 500;
   }
 };
