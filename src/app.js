@@ -9,6 +9,10 @@ const json = require('koa-json');
 const bodyParser = require('koa-bodyparser');
 const db = require('./api/middleware/db');
 
+server.on('error', (err, ctx) => {
+  console.error('server error', err, ctx);
+});
+
 server
   .use(json())
   .use(bodyParser())
