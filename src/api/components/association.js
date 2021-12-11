@@ -1,4 +1,6 @@
-exports.associateUserEvent = (Users, Events) => {
-  Users.hasOne(Events);
-  Events.belongsTo(Users);
+exports.associateUserNotification = (User, Notification) => {
+  User.Notification = User.hasOne(Notification, {
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
+  });
 };

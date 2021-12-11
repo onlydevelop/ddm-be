@@ -1,16 +1,18 @@
-const { defineUsers } = require('./user/model');
-const { defineEvents } = require('./event/model');
-const { associateUserEvent } = require('./association');
+const { defineUser } = require('./user/model');
+const { defineNotification } = require('./event/model');
+const { associateUserNotification } = require('./association');
 
 exports.models = async (sequelize) => {
   // Define models
-  const Users = await defineUsers(sequelize);
-  Users.sync();
-  const Events = await defineEvents(sequelize);
-  Events.sync();
+  const User = await defineUser(sequelize);
+  const Notification = await defineNotification(sequelize);
 
-  // Define assocuations
-  await associateUserEvent(Users, Events);
+  // Define associations
+  associateUserNotification(User, Notification);
 
-  return { Users, Events };
+  // Sync models
+  User.sync();
+  Notification.sync();
+
+  return { User, Notification };
 };
