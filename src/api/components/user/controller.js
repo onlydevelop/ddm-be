@@ -1,11 +1,54 @@
 const UserController = {};
 
 UserController.get = async (ctx) => {
-  let user = await ctx.db.User.findOne({
+  const user = await ctx.db.User.findOne({
     where: { id: ctx.params.id },
     include: {
       association: ctx.db.User.Notification,
       attributes: ['emailNotification', 'phoneNotification'],
+    },
+  });
+
+  try {
+    if (user) {
+      ctx.body = user;
+      ctx.status = 200;
+    } else {
+      ctx.status = 404;
+    }
+  } catch (error) {
+    ctx.status = 500;
+  }
+};
+
+UserController.getNotifications = async (ctx) => {
+  const user = await ctx.db.User.findOne({
+    where: { id: ctx.params.id },
+    include: {
+      association: ctx.db.User.NotificationHistories,
+      attributes: ['id', 'emailNotification', 'phoneNotification', 'createdAt'],
+    },
+  });
+
+  try {
+    if (user) {
+      ctx.body = user;
+      ctx.status = 200;
+    } else {
+      ctx.status = 404;
+    }
+  } catch (error) {
+    ctx.status = 500;
+  }
+};
+
+UserController.getNotification = async (ctx) => {
+  const user = await ctx.db.User.findOne({
+    where: { id: ctx.params.id },
+    include: {
+      where: { id: ctx.params.notificationId },
+      association: ctx.db.User.NotificationHistories,
+      attributes: ['id', 'emailNotification', 'phoneNotification', 'createdAt'],
     },
   });
 

@@ -39,7 +39,7 @@ EventController.post = async (ctx) => {
     }
 
     // Transaction: Begin
-    await NotificationHistory.create(
+    const notificationHistory = await NotificationHistory.create(
       {
         userId,
         emailNotification,
@@ -55,7 +55,8 @@ EventController.post = async (ctx) => {
 
     await t.commit();
 
-    ctx.set('location', `${ctx.request.href}/${user.id}`);
+    const url_hardcoded = `${ctx.request.origin}/api/v1/users/${user.id}/notifications/${notificationHistory.id}`; // FIXME
+    ctx.set('location', url_hardcoded);
     ctx.status = 201;
   } catch (error) {
     await t.rollback();

@@ -20,16 +20,23 @@ exports.defineNotification = (sequelize) => {
 };
 
 exports.defineNotificationHistory = (sequelize) => {
-  return sequelize.define('notificationHistory', {
-    userId: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
+  return sequelize.define(
+    'notificationHistory',
+    {
+      userId: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
+      emailNotification: {
+        type: DataTypes.BOOLEAN,
+      },
+      phoneNotification: {
+        type: DataTypes.BOOLEAN,
+      },
     },
-    emailNotification: {
-      type: DataTypes.BOOLEAN,
-    },
-    phoneNotification: {
-      type: DataTypes.BOOLEAN,
-    },
-  });
+    {
+      timestamps: true,
+      updatedAt: false,
+    }
+  );
 };

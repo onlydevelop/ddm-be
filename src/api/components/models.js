@@ -3,7 +3,10 @@ const {
   defineNotification,
   defineNotificationHistory,
 } = require('./event/model');
-const { associateUserNotification } = require('./association');
+const {
+  associateUserNotification,
+  associateUserNotificationHistories,
+} = require('./association');
 
 exports.models = async (sequelize) => {
   // Define models
@@ -13,6 +16,7 @@ exports.models = async (sequelize) => {
 
   // Define associations
   associateUserNotification(User, Notification);
+  associateUserNotificationHistories(User, NotificationHistory);
 
   // Sync models
   User.sync();
