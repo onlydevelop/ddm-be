@@ -4,7 +4,6 @@ exports.defineNotification = (sequelize) => {
   return sequelize.define(
     'notification',
     {
-      // Model attributes are defined here
       emailNotification: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -18,4 +17,19 @@ exports.defineNotification = (sequelize) => {
       timestamps: false,
     }
   );
+};
+
+exports.defineNotificationHistory = (sequelize) => {
+  return sequelize.define('notificationHistory', {
+    userId: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+    emailNotification: {
+      type: DataTypes.BOOLEAN,
+    },
+    phoneNotification: {
+      type: DataTypes.BOOLEAN,
+    },
+  });
 };

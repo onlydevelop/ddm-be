@@ -1,10 +1,13 @@
 const UserController = {};
 
 UserController.get = async (ctx) => {
-  const user = await ctx.db.User.findOne(
-    { where: { id: ctx.params.id } },
-    { include: [ctx.db.Notification] }
-  );
+  let user = await ctx.db.User.findOne({
+    where: { id: ctx.params.id },
+    include: {
+      association: ctx.db.User.Notification,
+      attributes: ['emailNotification', 'phoneNotification'],
+    },
+  });
 
   try {
     if (user) {
